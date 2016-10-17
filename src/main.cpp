@@ -3,6 +3,13 @@
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+<<<<<<< HEAD
+=======
+
+void testSFML() {
+    sf::Texture texture;
+}
+>>>>>>> a56ed150aed3f1fc52392e7202436d73a613a0f3
 
 // Fin test SFML
 
@@ -12,6 +19,7 @@ using namespace std;
 
 int main()
 {
+<<<<<<< HEAD
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
     sf::RectangleShape background(sf::Vector2f(800,600));	
@@ -55,5 +63,9 @@ int main()
 
     }
 
+=======
+
+    //cout << "It works !!!" << endl;
+>>>>>>> a56ed150aed3f1fc52392e7202436d73a613a0f3
     return 0;
 }
