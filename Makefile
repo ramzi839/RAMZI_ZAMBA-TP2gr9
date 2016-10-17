@@ -24,7 +24,7 @@ configure:
 build:
 	@make -s -j4 -C build
 
-run: build
+run: 
 	./bin/run
 
 test:
