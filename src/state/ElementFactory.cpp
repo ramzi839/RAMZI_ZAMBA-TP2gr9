@@ -8,8 +8,8 @@ using namespace state;
 ElementFactory::ElementFactory (){}
 ElementFactory::~ElementFactory (){}
 Element* ElementFactory::newInstance (char* id){
-    if(id == 'P') return new Player();
-    else if (id == 'T') return new Time();
+    if(*id == 'P') return new Player("ken");
+    else if (*id == 'T') return new Time();
     else throw "Invalid identifier";
 }
 void ElementFactory::registerType (char id){}
