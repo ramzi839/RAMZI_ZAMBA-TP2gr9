@@ -13,8 +13,8 @@ namespace state {
 }
 
 #include "Layer.h"
-#include "state/StateEvent.h"
 #include "state/StateObserver.h"
+#include "state/StateEventId.h"
 
 namespace render {
 
@@ -23,15 +23,14 @@ namespace render {
     // Associations
     // Attributes
   public:
-    Layer monLayer;
-    int id;
+    int width;
+    int height;
+    Layer myLayer;
     // Operations
   public:
-    Scene (int id);
-    void setScene ();
-    void stateChanged (state::StateEvent e);
-    sf::Sprite getScene ();
-    void update (sf::Time time);
+    Scene ();
+    sf::Sprite setBackground ();
+    void stateChanged (stateEventId e);
   };
 
 };

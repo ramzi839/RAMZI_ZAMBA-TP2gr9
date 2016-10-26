@@ -5,7 +5,7 @@ state::Element::Element () {}
 state::Element::~Element(){}
 
 //Getters......
-state::TypeId const state::Element::getTypeId() {return this->typeId;}
+state::TypeId state::Element::getTypeId() {return this->typeId;}
 int state::Element::getX() { return this->x;}
 int state::Element::getY() { return this->y;}
 //Setters.....
