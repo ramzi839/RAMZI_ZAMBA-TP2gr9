@@ -649,6 +649,8 @@ struct stdlib_includes {
    int array;   
    int thread;
    int mutex;
+   int graphics;
+   int window;
 };
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
@@ -668,6 +670,14 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        if (!si->stdlib && strstr(name,"size_t")) {
            print ("#include <stdlib.h>\n");
            si->stdlib = 1;
+       }
+       if (!si->graphics && strstr(name,"sf::")) {
+           print ("#include \"SFML/Graphics.hpp\"\n");
+           si->graphics = 1;
+       }
+       if (!si->window && strstr(name,"sf::")) {
+           print ("#include \"SFML/Window.hpp\"\n");
+           si->window = 1;
        }
        if (!si->string && strstr(name,"std::string")) {
            print ("#include <string>\n");
