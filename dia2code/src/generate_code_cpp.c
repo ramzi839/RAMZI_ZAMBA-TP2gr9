@@ -651,6 +651,11 @@ struct stdlib_includes {
    int mutex;
    int graphics;
    int window;
+   int drawable;
+   int transformable;
+   int time2;
+   int render_target;
+   int vector2;
 };
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
@@ -674,6 +679,26 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        if (!si->graphics && strstr(name,"sf::")) {
            print ("#include \"SFML/Graphics.hpp\"\n");
            si->graphics = 1;
+       }
+       if (!si->drawable && strstr(name,"sf::")) {
+           print ("#include \"SFML/Graphics/Drawable.hpp\"\n");
+           si->drawable = 1;
+       }
+       if (!si->time2 && strstr(name,"sf::")) {
+           print ("#include \"SFML/System/Time.hpp\"\n");
+           si->time2 = 1;
+       }
+       if (!si->vector2 && strstr(name,"sf::")) {
+           print ("#include \"SFML/System/Vector2.hpp\"\n");
+           si->vector2 = 1;
+       } 
+       if (!si->render_target && strstr(name,"sf::")) {
+           print ("#include \"SFML/Graphics/RenderTarget.hpp\"\n");
+           si->render_target = 1;
+       }
+       if (!si-> transformable && strstr(name,"sf::")) {
+           print ("#include \"SFML/Graphics/Transformable.hpp\"\n");
+           si-> transformable= 1;
        }
        if (!si->window && strstr(name,"sf::")) {
            print ("#include \"SFML/Window.hpp\"\n");
