@@ -4,45 +4,126 @@
  * and open the template in the editor.
  */
 
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
-
 #include "Layer.h"
 
-namespace render {
-Layer::Layer() {};    
-Layer::Layer(std::string s){
-    myTexture.loadFromFile(s);
-    mySprite.setTexture(myTexture);
-
-};
+namespace render {   
+Layer::Layer(sf::Time frameTime, bool pause, bool loop):
+    my_animation(NULL), my_frameTime(frameTime), my_currentFrame(0), isPaused(pause), isLooped(loop), my_texture(NULL)
+{
     
-
-void Layer::setAnimation (Animation anim){
-
-
-};
-
-void Layer::setSurface (std::string texture){
-    myTexture.loadFromFile(texture);
-    mySprite.setTexture(myTexture);
-
-
-}
-
-void Layer::setPosition (float x, float y){
-
-    mySprite.setPosition(x,y);
-    
+ 
 }
 
 
+void Layer::setFrame(std::size_t newFrame, bool resetTime)
+{
+    if (my_animation)
+    {
+        //calculate new vertex positions and texture coordiantes
+        sf::IntRect rect = my_animation->getFrame(newFrame);
+        
+        my_vertices[0].position = sf::Vector2f(0.f, 0.f);
+        my_vertices[1].position = sf::Vector2f(0.f, static_cast<float>(rect.height));
+        my_vertices[2].position = sf::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height));
+        my_vertices[3].position = sf::Vector2f(static_cast<float>(rect.width), 0.f);
 
-sf::Sprite Layer::getSurface (){
+        float left = static_cast<float>(rect.left) + 0.0001f;
+        float right = left + static_cast<float>(rect.width);
+        float top = static_cast<float>(rect.top);
+        float bottom = top + static_cast<float>(rect.height);
 
-    return this->mySprite;
-    
+        my_vertices[0].texCoords = sf::Vector2f(left, top);
+        my_vertices[1].texCoords = sf::Vector2f(left, bottom);
+        my_vertices[2].texCoords = sf::Vector2f(right, bottom);
+        my_vertices[3].texCoords = sf::Vector2f(right, top);
+    }
+
+    if (resetTime)
+        my_currentTime = sf::Time::Zero;
 }
 
 
-};
+    
+    
+void Layer::update(sf::Time deltaTime){
+    // if not paused and we have a valid animation
+    if (!isPaused && my_animation)
+    {
+        // add delta time
+        my_currentTime += deltaTime;
+
+        // if current time is bigger then the frame time advance one frame
+        if (my_currentTime >= my_frameTime)
+        {
+            // reset time, but keep the remainder
+            my_currentTime = sf::microseconds(my_currentTime.asMicroseconds() % my_frameTime.asMicroseconds());
+
+            // get next Frame index
+            if (my_currentFrame + 1 < my_animation->getSize())
+                my_currentFrame++;
+            else
+            {
+                // animation has ended
+                my_currentFrame = 0; // reset to start
+
+                if (!isLooped)
+                {
+                    isPaused = true;
+                }
+
+            }
+          // set the current frame, not reseting the time
+            setFrame(my_currentFrame, false);
+        }
+    }
+}
+
+void Layer::play()
+{
+    isPaused = false;
+}
+
+void Layer::play(const Animation& animation)
+{
+    if (getAnimation() != &animation)
+        setAnimation(animation);
+    play();
+}
+
+void Layer::setAnimation(const Animation& animation)
+{
+    my_animation = &animation;
+    my_texture = my_animation->getSprite();
+    my_currentFrame = 0;
+    setFrame(my_currentFrame);
+}
+
+const Animation* Layer::getAnimation() const
+{
+    return my_animation;
+}
+
+
+void Layer::stop()
+{
+    isPaused = true;
+    my_currentFrame = 0;
+    setFrame(my_currentFrame);
+}
+
+void Layer::pause()
+{
+    isPaused = true;
+}
+
+    
+void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+    if (my_animation && my_texture)
+    {
+        states.transform *= getTransform();
+        states.texture = my_texture;
+        target.draw(my_vertices, 4, sf::Quads, states);
+    }
+}
+    
+}
