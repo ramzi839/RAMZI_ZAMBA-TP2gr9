@@ -7,20 +7,20 @@
 
 #include "state.hpp"
 #include "render.h"
+#include "engine/Engine.h"
 
 
-
-
-using namespace render;
+using namespace engine;
 
 
 
 
 int main()
 {
+    Engine engine;
     
-    Scene scene;
-    scene.update();
+    engine.run();
+    
 
 
     return 0;
