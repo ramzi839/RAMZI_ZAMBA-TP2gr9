@@ -12,17 +12,19 @@ namespace engine{
 Engine::Engine(){
    
        
-       /*CommandSet myPlayerCommands;
+       
        myPlayerCommands.addCommand(sf::Keyboard::Left);
        myPlayerCommands.addCommand(sf::Keyboard::Right);
        myPlayerCommands.addCommand(sf::Keyboard::Space);
-       myPlayerCommands.get();*/
+       myPlayerCommands.execute();
    
    } 
     
-void Engine::takeCommand(){
+void Engine::run(){
 
-    
+      
+      currentState.update(myPlayerCommands.get());
+      
 
 
 }

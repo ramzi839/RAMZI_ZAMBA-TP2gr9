@@ -5,6 +5,7 @@
  */
 
 #include "Scene.h"
+#include "state/Side.h"
 
 namespace render{
 Scene::Scene(){
@@ -19,7 +20,7 @@ void Scene::stateChanged(state::StateEvent e){
 
 
 
-void Scene::update(){
+void Scene::update(state::Side status){
 
     
     sf::Vector2i screenDimensions(766,478);
@@ -65,7 +66,7 @@ void Scene::update(){
     sf::Clock frameClock;
 
     float speed = 80.f;
-    bool noKeyWasPressed = true;
+    
     
     while (window.isOpen())
     {
@@ -81,39 +82,39 @@ void Scene::update(){
 
         
         sf::Vector2f movement(0.f, 0.f);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (status==state::JUMP)
         {
             currentAnimation = &Jump;
             movement.y -= speed;
-            noKeyWasPressed = false;
+            
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        if (status==state::CROUCH)
         {
             currentAnimation = &Crouch;
             movement.y += speed;
-            noKeyWasPressed = false;
+            
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        if(status==state::LEFT)
         {
             currentAnimation = &walkingLeft;
             movement.x -= speed;
-            noKeyWasPressed = false;
+            
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        if (status==state::RIGHT)
         {
             currentAnimation = &walkingRight;
-            movement.x += speed;
-            noKeyWasPressed = false;
+            //movement.x += speed;
+            
         }
         playerLayer.play(*currentAnimation);
         playerLayer.move(movement * frameTime.asSeconds());
 
         // if no key was pressed stop the animation
-        if (noKeyWasPressed)
+        if (status==state::NO_MOVE)
         {
             playerLayer.stop();
         }
-        noKeyWasPressed = true;
+        
 
         // update AnimatedSprite
         playerLayer.update(frameTime);

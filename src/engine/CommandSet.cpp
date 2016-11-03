@@ -22,7 +22,7 @@ void CommandSet::addCommand(sf::Keyboard::Key Key){
 }
 
 CommandTypeId CommandSet::get(){
-
+    
     return this->id;
 }
 void CommandSet::execute(){
@@ -30,26 +30,28 @@ void CommandSet::execute(){
 if (sf::Keyboard::isKeyPressed(commands[0]))
 {
     this->id=CommandTypeId::LEFT;
-    noKeyWasPressed=false;
+    noKeyWasPressed = false;
 }
 
 if (sf::Keyboard::isKeyPressed(commands[1]))
 {
        this->id=CommandTypeId::RIGHT;  
-       noKeyWasPressed=false;
+       noKeyWasPressed = false;
+       
 }
 
 if (sf::Keyboard::isKeyPressed(commands[2]))
 {
        this->id=CommandTypeId::JUMP; 
-       noKeyWasPressed=false;
+       noKeyWasPressed = false;
+       
 }
 
  if (noKeyWasPressed)
         {
            this->id=CommandTypeId::NO_KEY;
         }
- noKeyWasPressed = true;
+
 
 }
 
