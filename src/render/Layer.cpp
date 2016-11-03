@@ -46,25 +46,25 @@ void Layer::setFrame(std::size_t newFrame, bool resetTime)
     
     
 void Layer::update(sf::Time deltaTime){
-    // if not paused and we have a valid animation
+    
     if (!isPaused && my_animation)
     {
-        // add delta time
+        
         my_currentTime += deltaTime;
 
-        // if current time is bigger then the frame time advance one frame
+        
         if (my_currentTime >= my_frameTime)
         {
-            // reset time, but keep the remainder
+            
             my_currentTime = sf::microseconds(my_currentTime.asMicroseconds() % my_frameTime.asMicroseconds());
 
-            // get next Frame index
+            
             if (my_currentFrame + 1 < my_animation->getSize())
                 my_currentFrame++;
             else
             {
-                // animation has ended
-                my_currentFrame = 0; // reset to start
+                
+                my_currentFrame = 0; 
 
                 if (!isLooped)
                 {
@@ -72,7 +72,7 @@ void Layer::update(sf::Time deltaTime){
                 }
 
             }
-          // set the current frame, not reseting the time
+          
             setFrame(my_currentFrame, false);
         }
     }

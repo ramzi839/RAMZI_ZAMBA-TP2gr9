@@ -14,6 +14,7 @@ Scene::Scene(){
 
 void Scene::stateChanged(state::StateEvent e){
     
+    
 }
 
 
@@ -73,8 +74,7 @@ void Scene::update(){
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-                window.close();
+            
         }
 
         sf::Time frameTime = frameClock.restart();
