@@ -10,18 +10,21 @@
 #include "engine/Engine.h"
 
 
-using namespace engine;
+using namespace render;
 
 
 
 
 int main()
 {
-    Engine engine;
     
-    engine.run();
     
-
+    Scene scene;
+    
+        
+    scene.run();
+    
+    
 
     return 0;
 }
