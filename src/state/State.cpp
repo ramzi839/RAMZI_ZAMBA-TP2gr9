@@ -15,24 +15,9 @@ namespace state{
     
     }
 
-    void State::update(engine::CommandTypeId order){
-        if (order== engine::LEFT){
-            scene.update(state::LEFT);
-        
-        }
     
-        
-        if (order== engine::RIGHT){
-            scene.update(state::RIGHT);
-        
-        } 
-        if (order== engine::NO_KEY){
-            scene.update(state::NO_MOVE);
-        
-        }
-        
        
-    }
+    
 
 
 }
