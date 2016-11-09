@@ -16,18 +16,34 @@ Engine::Engine(){
        myPlayerCommands.addCommand(sf::Keyboard::Left);
        myPlayerCommands.addCommand(sf::Keyboard::Right);
        myPlayerCommands.addCommand(sf::Keyboard::Space);
-       myPlayerCommands.execute();
+       myPlayerCommands.addCommand(sf::Keyboard::Z);
+       myPlayerCommands.addCommand(sf::Keyboard::A);
+       myPlayerCommands.addCommand(sf::Keyboard::R);
+       
    
    } 
     
-void Engine::run(){
+void Engine::execute(){
 
+      myPlayerCommands.execute();
       
-      currentState.update(myPlayerCommands.get());
       
 
 
 }
+
+CommandTypeId Engine::getMode(){
+
+      
+
+      return myPlayerCommands.get();
+}
   
+bool Engine::update(){
+
+      
+
+      return myPlayerCommands.commandChanged();
+}
     
 }

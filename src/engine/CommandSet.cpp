@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 #include "CommandSet.h"
+#include <iostream>    
+       
+
 
 namespace engine{
     
@@ -25,18 +28,29 @@ CommandTypeId CommandSet::get(){
     
     return this->id;
 }
+
+bool CommandSet::commandChanged(){
+    
+    return this->noKeyWasPressed;
+}
+
+
 void CommandSet::execute(){
+    
 
 if (sf::Keyboard::isKeyPressed(commands[0]))
 {
+    //std::cout<<"ok"<<std::endl;
     this->id=CommandTypeId::LEFT;
     noKeyWasPressed = false;
+    
 }
 
 if (sf::Keyboard::isKeyPressed(commands[1]))
 {
        this->id=CommandTypeId::RIGHT;  
        noKeyWasPressed = false;
+       
        
 }
 
@@ -47,12 +61,32 @@ if (sf::Keyboard::isKeyPressed(commands[2]))
        
 }
 
+if (sf::Keyboard::isKeyPressed(commands[3]))
+{
+       this->id=CommandTypeId::KICK; 
+       noKeyWasPressed = false;
+       
+}
+if (sf::Keyboard::isKeyPressed(commands[4]))
+{
+       this->id=CommandTypeId::SPELL; 
+       noKeyWasPressed = false;
+       
+}
+
+if (sf::Keyboard::isKeyPressed(commands[5]))
+{
+       this->id=CommandTypeId::COMBO; 
+       noKeyWasPressed = false;
+       
+}
+
  if (noKeyWasPressed)
         {
            this->id=CommandTypeId::NO_KEY;
         }
 
-
+noKeyWasPressed = false;
 }
 
 
