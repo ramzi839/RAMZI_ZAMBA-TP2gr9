@@ -19,6 +19,7 @@ Engine::Engine(){
        myPlayerCommands.addCommand(sf::Keyboard::Z);
        myPlayerCommands.addCommand(sf::Keyboard::A);
        myPlayerCommands.addCommand(sf::Keyboard::R);
+       myPlayerCommands.addCommand(sf::Keyboard::K);
        
    
    } 
