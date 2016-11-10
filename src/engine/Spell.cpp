@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 
-#include "Action.h"
+
+#include "Spell.h"
 
 namespace engine{
 
-    Action::Action(){
-    
+    Spell::Spell(int id){
+        this->id=id;
     
     
     }
 
-   
+    void Spell::apply(){}
+    void Spell::undo(){}
 
 
 }

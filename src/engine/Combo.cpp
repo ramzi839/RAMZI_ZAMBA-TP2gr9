@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 
-#include "Action.h"
+#include "Combo.h"
 
 namespace engine{
 
-    Action::Action(){
-    
+    Combo::Combo(int id){
+        this->id=id;
     
     
     }
 
-   
+    void Combo::apply(){}
+    void Combo::undo(){}
 
 
 }

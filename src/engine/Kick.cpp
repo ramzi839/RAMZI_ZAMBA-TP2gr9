@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 
-#include "Action.h"
+#include "Kick.h"
 
 namespace engine{
 
-    Action::Action(){
-    
+    Kick::Kick(int id){
+        this->id=id;
     
     
     }
 
-   
+    void Kick::apply(){}
+    void Kick::undo(){}
 
 
 }
