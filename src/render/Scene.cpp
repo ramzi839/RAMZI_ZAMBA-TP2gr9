@@ -41,6 +41,7 @@ void Scene::run(){
     sf::Vector2f size2(119.f, 10.f);
     
     sf::Color myColor, myColor2;
+    int xp, xi;
     
     
     background.setTexture(backgroundTexture);
@@ -53,8 +54,6 @@ void Scene::run(){
     picture2.scale(0.11,0.08);
     picture2.setPosition(684,4);
     
-    //size1.x=50;
-    //size2.x=70;
     
     sf::RectangleShape rect1, rect2;
     
@@ -148,16 +147,9 @@ void Scene::run(){
     int counter=0, counter2=0;
     
     
-    sf::Clock frameClock,clock1;
+    sf::Clock frameClock;
     
-    //sf::Font font;
-    //font.loadFromFile("arial.ttf");
-        sf::Text text;
-    //text.setFont(font);
-        text.setString("YEEEESS");
-        text.setPosition(200,200);
-        text.setCharacterSize(20);
-        text.setColor(myColor2.Green);
+    
 
     float speed = 80.f;
     
@@ -174,12 +166,10 @@ void Scene::run(){
         }
 
         window.clear();
-        //window.draw(background);
+        window.draw(background);
         
         sf::Time frameTime = frameClock.restart();
-        //sf::Time elapsed1 = clock1.getElapsedTime();
-        
-        //elapsed1.asSeconds()
+       
         
         
         sf::Vector2f movement(0.f, 0.f);
@@ -203,12 +193,15 @@ void Scene::run(){
         if(myEngine.getMode()== engine::LEFT)
         {
             currentAnimation = &walkingLeft;
+            
+            if(playerLayer.getPosition().x>0)
             movement.x -= speed;
             
         }
         if (myEngine.getMode()== engine::RIGHT)
         {
             currentAnimation = &walkingRight;
+            if(playerLayer.getPosition().x<700)
             movement.x += speed;
            
             
@@ -258,11 +251,12 @@ void Scene::run(){
         ballArray[counter].move(10.f,0);
         
         ballArray[counter].play(spell);
+        
         window.draw(ballArray[counter]);
         counter++;
         }
          
-          counter2=0;
+         counter2=0;
          for(iter2 = ballArray2.begin(); iter2!=ballArray2.end();iter2++){
         
         ballArray2[counter2].move(10.f,0);
@@ -270,6 +264,7 @@ void Scene::run(){
         ballArray2[counter2].play(combo);
         window.draw(ballArray2[counter2]);
         counter2++;
+        
         }
           
           
@@ -278,6 +273,7 @@ void Scene::run(){
         {
              
             IA_currentAnimation = &IA_walkingLeft;
+           if(IA.getPosition().x>0)
            movement2.x -= speed;
            
             
@@ -306,17 +302,18 @@ void Scene::run(){
         IA.update(frameTime);
        
    
+        xi = playerLayer.getPosition().x;
+        xp = IA.getPosition().x-40;
         
+        /*test d'un coup reçu*/
+        if(xi==xp){
+        size2.x-= 10;
+        IA.setColor(myColor2.Cyan);
         
+        } else{
         
-        /*if(currentAnimation->getFrame(0).intersects(IA_currentAnimation->getFrame(0))){
-        
-        
-        size2.x-= 0.5;
-        
-        };*/
-        
-        size2.x-= 0.1;
+        IA.setColor(myColor2.White);
+        }
         
         if (size2.x<0) size2.x=0;
         
@@ -336,8 +333,6 @@ void Scene::run(){
         window.draw(picture2);
         window.draw(rect1);
         window.draw(rect2);
-        window.draw(text);
-        
         window.display();
     
     }

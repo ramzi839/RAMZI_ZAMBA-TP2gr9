@@ -90,6 +90,15 @@ void Layer::play(const Animation& animation)
     play();
 }
 
+void Layer::setColor(const sf::Color& color)
+{
+    // Update the vertices' color
+    my_vertices[0].color = color;
+    my_vertices[1].color = color;
+    my_vertices[2].color = color;
+    my_vertices[3].color = color;
+}
+
 void Layer::setAnimation(const Animation& animation)
 {
     my_animation = &animation;
