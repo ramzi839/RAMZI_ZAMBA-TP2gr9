@@ -28,9 +28,10 @@ void Scene::run(){
     window.setFramerateLimit(60);
     
     sf::Sprite background, picture1,picture2;
-    sf::Texture backgroundTexture,playerTexture,comboTexture,imageCharacter1,imageCharacter2;
+    sf::Texture backgroundTexture,playerTexture,comboTexture,imageCharacter1,imageCharacter2,ia_texture;
     
     playerTexture.loadFromFile("../res/Players/ken2.png");
+    ia_texture.loadFromFile("../res/Players/ia_ken2.png");
     comboTexture.loadFromFile("../res/Players/joueur.png");
     backgroundTexture.loadFromFile("../res/Background/Map0.png");
     imageCharacter1.loadFromFile("../res/Players/ken_profil.jpg");
@@ -49,17 +50,14 @@ void Scene::run(){
     picture1.scale(0.11,0.08);
     picture1.setPosition(4,4);
     
+    picture2.scale(0.11,0.08);
+    picture2.setPosition(684,4);
+    
     //size1.x=50;
     //size2.x=70;
     
     sf::RectangleShape rect1, rect2;
-    rect1.setSize(size1);
-    rect1.setFillColor(myColor.Green);
-    rect1.setPosition(102,25);
     
-    rect2.setSize(size2);
-    rect2.setFillColor(myColor.Green);
-    rect2.setPosition(544,25.5);
     
 
     Animation  Crouch;
@@ -72,7 +70,14 @@ void Scene::run(){
     walkingLeft.addFrame(sf::IntRect(10, 80, 50, 80));
     walkingLeft.addFrame(sf::IntRect(80, 80, 50, 80));
     walkingLeft.addFrame(sf::IntRect(150, 80, 50, 80));
-    walkingLeft.addFrame(sf::IntRect(220, 80, 60, 80));
+    walkingLeft.addFrame(sf::IntRect(210, 80, 60, 80));
+    
+    Animation IA_walkingLeft;
+    IA_walkingLeft.setSprite(ia_texture);
+    IA_walkingLeft.addFrame(sf::IntRect(430, 80, 50, 80));
+    IA_walkingLeft.addFrame(sf::IntRect(360, 80, 50, 80));
+    IA_walkingLeft.addFrame(sf::IntRect(290, 80, 50, 80));
+    IA_walkingLeft.addFrame(sf::IntRect(220, 80, 60, 80));
 
     Animation walkingRight;
     walkingRight.setSprite(playerTexture);
@@ -122,18 +127,22 @@ void Scene::run(){
     
 
     Animation* currentAnimation = &walkingRight;
+    Animation* IA_currentAnimation = &IA_walkingLeft;
     
     
     Layer playerLayer(sf::seconds(0.2), true, false);
+    Layer IA(sf::seconds(0.2), true, false);
     Layer spellsLayer(sf::seconds(0.2), true, false);
     Layer comboLayer(sf::seconds(0.2), true, false);
     
     playerLayer.scale(1.5,1.5);
+    IA.scale(1.5,1.5);
     spellsLayer.scale(1.5,1.5);
     comboLayer.scale(3,3);
     
     
     playerLayer.setPosition(0,350);
+    IA.setPosition(690,350);
     
     
     int counter=0, counter2=0;
@@ -141,16 +150,14 @@ void Scene::run(){
     
     sf::Clock frameClock,clock1;
     
-    sf::Font font;
-    font.loadFromFile("arial.ttf");
-    sf::Text text;
-    text.setFont(font);
-        
+    //sf::Font font;
+    //font.loadFromFile("arial.ttf");
+        sf::Text text;
+    //text.setFont(font);
+        text.setString("YEEEESS");
         text.setPosition(200,200);
-        
-        text.setString("Starrrrrrrtttttt");
-        text.setCharacterSize(24);
-        text.setColor(myColor2.White);
+        text.setCharacterSize(20);
+        text.setColor(myColor2.Green);
 
     float speed = 80.f;
     
@@ -168,7 +175,7 @@ void Scene::run(){
 
         window.clear();
         //window.draw(background);
-        window.draw(text);
+        
         sf::Time frameTime = frameClock.restart();
         //sf::Time elapsed1 = clock1.getElapsedTime();
         
@@ -176,6 +183,7 @@ void Scene::run(){
         
         
         sf::Vector2f movement(0.f, 0.f);
+        sf::Vector2f movement2(0.f, 0.f);
         
         
         
@@ -187,16 +195,11 @@ void Scene::run(){
         {
             
             currentAnimation = &Jump;
-            movement.y -= speed;
+            //movement.y -= speed;
                  
             
         }
-        if (myEngine.getMode()== engine::CROUCH)
-        {
-            currentAnimation = &Crouch;
-            movement.y += speed;
-            
-        }
+       
         if(myEngine.getMode()== engine::LEFT)
         {
             currentAnimation = &walkingLeft;
@@ -268,13 +271,27 @@ void Scene::run(){
         window.draw(ballArray2[counter2]);
         counter2++;
         }
+          
+          
+          
+        if (myEngine.getMode()== engine::LEFT_IA)
+        {
+             
+            IA_currentAnimation = &IA_walkingLeft;
+           movement2.x -= speed;
+           
+            
+        }
                  
                  
                  
         playerLayer.play(*currentAnimation);
+        IA.play(*IA_currentAnimation);
         
         
         playerLayer.move(movement * frameTime.asSeconds());
+        IA.move(movement2 * frameTime.asSeconds());
+        
         
         
 
@@ -286,17 +303,41 @@ void Scene::run(){
         
         
         playerLayer.update(frameTime);
+        IA.update(frameTime);
        
    
         
         
         
+        /*if(currentAnimation->getFrame(0).intersects(IA_currentAnimation->getFrame(0))){
+        
+        
+        size2.x-= 0.5;
+        
+        };*/
+        
+        size2.x-= 0.1;
+        
+        if (size2.x<0) size2.x=0;
+        
+        rect1.setSize(size1);
+        rect1.setFillColor(myColor.Green);
+        rect1.setPosition(102,25);
+    
+        rect2.setSize(size2);
+        rect2.setFillColor(myColor.Green);
+        rect2.setPosition(544,25.5);
+        
+        
+        window.draw(IA);
         window.draw(playerLayer);
+        
         window.draw(picture1);
+        window.draw(picture2);
         window.draw(rect1);
         window.draw(rect2);
+        window.draw(text);
         
-        //window.draw(picture2);
         window.display();
     
     }
