@@ -80,6 +80,12 @@ if (sf::Keyboard::isKeyPressed(commands[5]))
        noKeyWasPressed = false;
        
 }
+if (sf::Keyboard::isKeyPressed(commands[6]))
+{
+       this->id=CommandTypeId::LEFT_IA; 
+       noKeyWasPressed = false;
+       
+}
 
  if (noKeyWasPressed)
         {
