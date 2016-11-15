@@ -8,10 +8,7 @@ namespace state {
   enum PlayerStatus {
     NORMAL     = 1,
     SUPER     = 2,
-    DEAD     = 3,
-    ATTACKING     = 4,
-    DEFENDING     = 5,
-    MOVING     = 6
+    DEAD     = 3
   };
 
 };

@@ -46,6 +46,7 @@ namespace render {
     void stop ();
     void pause ();
     Animation getLayerList ( int i);
+    void setColor (const sf::Color& color);
     void update (sf::Time deltaTime);
   private:
     virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const;

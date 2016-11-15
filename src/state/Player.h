@@ -2,13 +2,20 @@
 #ifndef STATE__PLAYER__H
 #define STATE__PLAYER__H
 
+#include "SFML/Graphics.hpp"
+#include "SFML/Graphics/Drawable.hpp"
+#include "SFML/System/Time.hpp"
+#include "SFML/System/Vector2.hpp"
+#include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/Graphics/Transformable.hpp"
+#include "SFML/Window.hpp"
 #include <string>
 #include <vector>
 
 namespace state {
   class Combo;
   class Health;
-  class Element;
+  class Observable;
   class Gauge;
 }
 
@@ -16,18 +23,19 @@ namespace state {
 #include "Health.h"
 #include "Side.h"
 #include "PlayerStatus.h"
-#include "Element.h"
+#include "Observable.h"
 #include "Gauge.h"
 
 namespace state {
 
   /// class Player - 
-  class Player : public state::Element {
+  class Player : public state::Observable {
     // Associations
     state::Side direction;
     // Attributes
   public:
     Combo combo;
+    sf::Vector2f position;
   protected:
     std::string name;
     Health health;
@@ -40,10 +48,6 @@ namespace state {
     ~Player ();
     PlayerStatus getStatus ();
     void setStatus (PlayerStatus s);
-    void attack (std::string str);
-    /// 						
-    /// @param 		(???) 
-    void defend ( );
     /// 	
     /// @param s		(???) 
     void setSide (Side s);
@@ -52,9 +56,9 @@ namespace state {
     /// 				
     /// @param s		(???) 
     void setName (std::string s);
-    bool  isMoving ();
-    bool isAttacking ();
-    bool  isDefending ();
+    void setPosition (sf::Vector2f position);
+    sf::Vector2f getPosition ();
+    void notifyObservers (int i);
   };
 
 };

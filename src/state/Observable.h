@@ -22,7 +22,6 @@ namespace state {
     // Operations
   public:
     Observable ();
-    ~Observable ();
     void registerObserver (StateObserver* o);
     bool  unregisteredObserver (StateObserver* o);
     bool  notifyObservers (StateEvent e);

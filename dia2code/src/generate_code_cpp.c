@@ -656,6 +656,7 @@ struct stdlib_includes {
    int time2;
    int render_target;
    int vector2;
+   	
 };
 
 void print_include_stdlib(struct stdlib_includes* si,char* name) {
