@@ -3,25 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+#include "state/Player.h"
 #include "Scene.h"
 #include "state/Side.h"
+#include <iostream>
 
+using namespace state;
+
+using namespace std;
 namespace render{
 Scene::Scene(){
     
        
 }
 
-void Scene::stateChanged(state::StateEvent e){
+void Scene::stateChanged(state::StateEvent e,engine::CommandTypeId c){
     
+    this->current=c;
     
 }
 
-
+void Scene::linkToScene(state::Player* p) { 
+    this->player_observed = p;
+    cout<<"Scene Linked To Player " + player_observed->getName()<<endl;
+        }
 
 void Scene::run(){
 
+    Player ken("Ken"), ryu("Ryu");
+    
     
     sf::Vector2i screenDimensions(766,478);
     sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Street Fighter");
@@ -29,7 +39,7 @@ void Scene::run(){
     
     sf::Sprite background, picture1,picture2;
     sf::Texture backgroundTexture,playerTexture,comboTexture,imageCharacter1,imageCharacter2,ia_texture;
-    
+   
     playerTexture.loadFromFile("../res/Players/ken2.png");
     ia_texture.loadFromFile("../res/Players/ia_ken2.png");
     comboTexture.loadFromFile("../res/Players/joueur.png");
@@ -43,6 +53,9 @@ void Scene::run(){
     sf::Color myColor, myColor2;
     int xp, xi;
     
+    State my_state(&ken,&ryu);
+    engine::Ruler ruler;
+    ruler.apply(1,my_state);
     
     background.setTexture(backgroundTexture);
     picture1.setTexture(imageCharacter1);
@@ -77,6 +90,13 @@ void Scene::run(){
     IA_walkingLeft.addFrame(sf::IntRect(360, 80, 50, 80));
     IA_walkingLeft.addFrame(sf::IntRect(290, 80, 50, 80));
     IA_walkingLeft.addFrame(sf::IntRect(220, 80, 60, 80));
+    
+    Animation IA_kick;
+    IA_kick.setSprite(ia_texture);
+    //IA_kick.addFrame(sf::IntRect(430, 480, 50, 80));
+    //IA_kick.addFrame(sf::IntRect(360, 480, 50, 80));
+    //IA_kick.addFrame(sf::IntRect(290, 480, 50, 80));
+    IA_kick.addFrame(sf::IntRect(220, 480, 60, 80));
 
     Animation walkingRight;
     walkingRight.setSprite(playerTexture);
@@ -130,7 +150,9 @@ void Scene::run(){
     
     
     Layer playerLayer(sf::seconds(0.2), true, false);
+   // my_state.players[0]->registerObserver(&playerLayer);
     Layer IA(sf::seconds(0.2), true, false);
+    //my_state.players[1]->registerObserver(&IA);
     Layer spellsLayer(sf::seconds(0.2), true, false);
     Layer comboLayer(sf::seconds(0.2), true, false);
     
@@ -143,7 +165,7 @@ void Scene::run(){
     playerLayer.setPosition(0,350);
     IA.setPosition(690,350);
     
-    
+    ken.registerObserver(&playerLayer);
     int counter=0, counter2=0;
     
     
@@ -269,10 +291,20 @@ void Scene::run(){
           
           
           
-        if (myEngine.getMode()== engine::LEFT_IA)
+        /*if (myEngine.getMode()== engine::LEFT_IA)
         {
              
             IA_currentAnimation = &IA_walkingLeft;
+           if(IA.getPosition().x>0)
+           movement2.x -= speed;
+           
+            
+        }*/
+         
+         if (current== engine::KICK_IA)
+        {
+             
+           IA_currentAnimation = &IA_kick;
            if(IA.getPosition().x>0)
            movement2.x -= speed;
            

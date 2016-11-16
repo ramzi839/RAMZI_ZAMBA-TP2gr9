@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+#include <iostream>
 #include "Layer.h"
-
+#include "state/Player.h"
+using namespace std;
+using namespace state;
 namespace render {   
 Layer::Layer(sf::Time frameTime, bool pause, bool loop):
     my_animation(NULL), my_frameTime(frameTime), my_currentFrame(0), isPaused(pause), isLooped(loop), my_texture(NULL)
@@ -14,7 +16,7 @@ Layer::Layer(sf::Time frameTime, bool pause, bool loop):
  
 }
 
-
+void Layer::stateChanged(state::StateEvent e, engine::CommandTypeId c ) {}
 void Layer::setFrame(std::size_t newFrame, bool resetTime)
 {
     if (my_animation)
@@ -134,5 +136,8 @@ void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const{
         target.draw(my_vertices, 4, sf::Quads, states);
     }
 }
-    
+   void Layer::linkToPlayer(state::Player* p)  {
+           this->player_observed=p;
+           cout<<"Player " +this->player_observed->getName() +" linked To Layer "<<endl;
+                    }
 }
