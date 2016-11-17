@@ -2,7 +2,5 @@
 #ifndef __RENDER__H
 #define __RENDER__H
 
-#include "render/Animation.h"
 #include "render/Layer.h"
-#include "render/Scene.h"
 #endif

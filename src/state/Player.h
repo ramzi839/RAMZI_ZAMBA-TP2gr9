@@ -2,6 +2,7 @@
 #ifndef STATE__PLAYER__H
 #define STATE__PLAYER__H
 
+#include <string>
 #include "SFML/Graphics.hpp"
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/System/Time.hpp"
@@ -9,56 +10,48 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/Transformable.hpp"
 #include "SFML/Window.hpp"
-#include <string>
-#include <vector>
 
 namespace state {
-  class Combo;
-  class Health;
+  class PlayerObserver;
+  class State;
   class Observable;
-  class Gauge;
 }
 
-#include "Combo.h"
-#include "Health.h"
-#include "Side.h"
 #include "PlayerStatus.h"
+#include "SIDE.h"
+#include "Direction.h"
+#include "PlayerEvent.h"
 #include "Observable.h"
-#include "Gauge.h"
 
 namespace state {
 
   /// class Player - 
   class Player : public state::Observable {
     // Associations
-    state::Side direction;
     // Attributes
   public:
-    Combo combo;
+    std::string  name;
     sf::Vector2f position;
-  protected:
-    std::string name;
-    Health health;
-    std::vector<std::string> listAttack;
-    Side side;
     PlayerStatus status;
+    float health;
+    state::SIDE side;
+    state::Direction direction;
     // Operations
   public:
-    Player (std::string name);
-    ~Player ();
-    PlayerStatus getStatus ();
-    void setStatus (PlayerStatus s);
-    /// 	
-    /// @param s		(???) 
-    void setSide (Side s);
-    Side getSide ();
-    std::string getName ();
-    /// 				
-    /// @param s		(???) 
-    void setName (std::string s);
-    void setPosition (sf::Vector2f position);
-    sf::Vector2f getPosition ();
-    void notifyObservers (int i);
+    Player (std::string );
+    void notifyObservers (state::PlayerEvent );
+    void setStatus (PlayerStatus newStatus);
+    PlayerStatus getStatus () const;
+    void setPosition (float , float );
+    sf::Vector2f getPosition () const;
+    void addObserver (PlayerObserver* );
+    void link (State* );
+    std::string getName () const;
+    void decreaseHealth (float );
+    float getHealth () const;
+    state::SIDE getSide () const;
+    void setDirection (state::Direction );
+    state::Direction getDirection () const;
   };
 
 };

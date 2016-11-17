@@ -2,14 +2,12 @@
 #ifndef __STATE__H
 #define __STATE__H
 
-#include "state/StateEvent.h"
-#include "state/StateObserver.h"
-#include "state/Observable.h"
-#include "state/Gauge.h"
-#include "state/Combo.h"
-#include "state/Health.h"
-#include "state/Side.h"
 #include "state/PlayerStatus.h"
+#include "state/SIDE.h"
+#include "state/Direction.h"
+#include "state/PlayerEvent.h"
+#include "state/PlayerObserver.h"
+#include "state/Observable.h"
 #include "state/Player.h"
 #include "state/State.h"
 #endif

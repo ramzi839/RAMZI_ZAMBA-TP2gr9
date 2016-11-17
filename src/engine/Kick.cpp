@@ -1,21 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+#include <iostream>
 #include "Kick.h"
+#include "state/State.h"
 
-namespace engine{
+using namespace std;
 
-    Kick::Kick(int id){
-        this->id=id;
-    
-    
+namespace engine {
+
+    Kick::Kick(int id) : id(id){}
+    void Kick::apply(state::State* s) {
+        if ( id ==1) {
+            s->players[1]->notifyObservers(state::ATTACK_KICK);
+        }
+        else  s->players[0]->notifyObservers(state::ATTACK_KICK);
     }
-
-    void Kick::apply(){}
-    void Kick::undo(){}
 
 
 }

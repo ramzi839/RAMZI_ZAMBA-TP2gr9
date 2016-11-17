@@ -6,11 +6,10 @@
 
 namespace state {
   class Player;
+  class PlayerObserver;
   class Observable;
 }
 
-#include "StateEvent.h"
-#include "engine/CommandTypeId.h"
 #include "Observable.h"
 #include "Player.h"
 
@@ -25,9 +24,9 @@ namespace state {
     // Operations
   public:
     State ();
-    void  notifyObservers (StateEvent id);
-    void setBeginningTime (float t);
-    void update (engine::CommandTypeId order);
+    State (Player*  , Player* );
+    void notifyObservers ();
+    void addObserver (PlayerObserver* );
   };
 
 };
