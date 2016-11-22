@@ -2,17 +2,16 @@
 #ifndef STATE__STATE__H
 #define STATE__STATE__H
 
+#include <vector>
 
 namespace state {
-  class ElementList;
-  class Time;
+  class Player;
+  class PlayerObserver;
   class Observable;
 }
 
-#include "ElementList.h"
-#include "Time.h"
-#include "StateEvent.h"
 #include "Observable.h"
+#include "Player.h"
 
 namespace state {
 
@@ -20,21 +19,14 @@ namespace state {
   class State : public state::Observable {
     // Associations
     // Attributes
-  protected:
-    ElementList chars;
-    float timeRate;
-    Time timeCount;
+  public:
+    std::vector<Player*> players;
     // Operations
   public:
     State ();
-    ~State ();
-    ElementList& getChars ();
-    float getTimeRate ();
-    Time getTime ();
-    void setTimeRate (float r);
-    void setTime (Time t);
-    void setChars (const ElementList& list);
-    void  notifyObservers (StateEvent id);
+    State (Player*  , Player* );
+    void notifyObservers ();
+    void addObserver (PlayerObserver* );
   };
 
 };

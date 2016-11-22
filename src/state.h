@@ -2,19 +2,12 @@
 #ifndef __STATE__H
 #define __STATE__H
 
-#include "state/Gauge.h"
-#include "state/Combo.h"
-#include "state/Health.h"
-#include "state/Side.h"
 #include "state/PlayerStatus.h"
-#include "state/TypeId.h"
-#include "state/Element.h"
-#include "state/Player.h"
-#include "state/Time.h"
-#include "state/StateEvent.h"
-#include "state/StateObserver.h"
+#include "state/SIDE.h"
+#include "state/Direction.h"
+#include "state/PlayerEvent.h"
+#include "state/PlayerObserver.h"
 #include "state/Observable.h"
-#include "state/ElementFactory.h"
-#include "state/ElementList.h"
+#include "state/Player.h"
 #include "state/State.h"
 #endif

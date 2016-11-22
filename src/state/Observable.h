@@ -5,11 +5,11 @@
 #include <vector>
 
 namespace state {
-  class StateObserver;
+  class PlayerObserver;
 }
 
-#include "StateEvent.h"
-#include "StateObserver.h"
+#include "PlayerEvent.h"
+#include "PlayerObserver.h"
 
 namespace state {
 
@@ -17,15 +17,13 @@ namespace state {
   class Observable {
     // Associations
     // Attributes
-  protected:
-    mutable std::vector<StateObserver*> observers;
+  public:
+    std::vector<state::PlayerObserver*> observers;
     // Operations
   public:
-    Observable ();
-    ~Observable ();
-    void registerObserver (StateObserver* o);
-    bool  unregisteredObserver (StateObserver* o);
-    bool  notifyObservers (StateEvent e);
+    void addObserver (PlayerObserver* );
+    void removeObserver (PlayerObserver* );
+    virtual void notifyObservers (state::PlayerEvent );
   };
 
 };

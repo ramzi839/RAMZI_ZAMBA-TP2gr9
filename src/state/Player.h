@@ -3,58 +3,55 @@
 #define STATE__PLAYER__H
 
 #include <string>
-#include <vector>
+#include "SFML/Graphics.hpp"
+#include "SFML/Graphics/Drawable.hpp"
+#include "SFML/System/Time.hpp"
+#include "SFML/System/Vector2.hpp"
+#include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/Graphics/Transformable.hpp"
+#include "SFML/Window.hpp"
 
 namespace state {
-  class Combo;
-  class Health;
-  class Element;
-  class Gauge;
+  class PlayerObserver;
+  class State;
+  class Observable;
 }
 
-#include "Combo.h"
-#include "Health.h"
-#include "Side.h"
 #include "PlayerStatus.h"
-#include "Element.h"
-#include "Gauge.h"
+#include "SIDE.h"
+#include "Direction.h"
+#include "PlayerEvent.h"
+#include "Observable.h"
 
 namespace state {
 
   /// class Player - 
-  class Player : public state::Element {
+  class Player : public state::Observable {
     // Associations
-    state::Side direction;
     // Attributes
   public:
-    Combo combo;
-  protected:
-    std::string name;
-    Health health;
-    std::vector<std::string> listAttack;
-    Side side;
+    std::string  name;
+    sf::Vector2f position;
     PlayerStatus status;
+    float health;
+    state::SIDE side;
+    state::Direction direction;
     // Operations
   public:
-    Player (std::string name);
-    ~Player ();
-    PlayerStatus getStatus ();
-    void setStatus (PlayerStatus s);
-    void attack (std::string str);
-    /// 						
-    /// @param 		(???) 
-    void defend ( );
-    /// 	
-    /// @param s		(???) 
-    void setSide (Side s);
-    Side getSide ();
-    std::string getName ();
-    /// 				
-    /// @param s		(???) 
-    void setName (std::string s);
-    bool  isMoving ();
-    bool isAttacking ();
-    bool  isDefending ();
+    Player (std::string );
+    void notifyObservers (state::PlayerEvent );
+    void setStatus (PlayerStatus newStatus);
+    PlayerStatus getStatus () const;
+    void setPosition (float , float );
+    sf::Vector2f getPosition () const;
+    void addObserver (PlayerObserver* );
+    void link (State* );
+    std::string getName () const;
+    void decreaseHealth (float );
+    float getHealth () const;
+    state::SIDE getSide () const;
+    void setDirection (state::Direction );
+    state::Direction getDirection () const;
   };
 
 };

@@ -2,7 +2,6 @@
 #ifndef RENDER__LAYER__H
 #define RENDER__LAYER__H
 
-#include <vector>
 #include "SFML/Graphics.hpp"
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/System/Time.hpp"
@@ -10,45 +9,35 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Graphics/Transformable.hpp"
 #include "SFML/Window.hpp"
-#include <stdlib.h>
+#include <string>
 
-namespace render {
-  class Animation;
+namespace state {
+  class Player;
+  class PlayerObserver;
 }
 
-#include "Animation.h"
+#include "state/PlayerEvent.h"
+#include "state/PlayerObserver.h"
 
 namespace render {
 
   /// class Layer - 
-  class Layer : public sf::Transformable, public sf::Drawable {
-    // Associations
+  class Layer : public state::PlayerObserver, public sf::Transformable, public sf::Drawable {
     // Attributes
   public:
-    std::vector<Animation> animationList;
-  private:
-    const Animation* my_animation;
-    sf::Time my_frameTime;
-    sf::Time my_currentTime;
-    std::size_t my_currentFrame;
-    const sf::Texture* my_texture;
-    sf::Vertex my_vertices[4];
-    bool isPaused;
-    bool isLooped;
+    sf::Texture texture;
+    sf::Sprite sprite;
+    state::Player* player;
+    std::string name;
+    sf::RectangleShape rect_health;
     // Operations
   public:
-    Layer ( sf::Time frameTime, bool pause = false, bool loop = true);
-    void setAnimation (const Animation& animation);
-    const Animation* getAnimation () const;
-    void setFrame (std::size_t newFrame, bool resetTime = true);
-    void play ();
-    void play (const Animation& animation);
-    void stop ();
-    void pause ();
-    Animation getLayerList ( int i);
-    void update (sf::Time deltaTime);
-  private:
-    virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const;
+    Layer ();
+    Layer (state::Player* );
+    void update (state::PlayerEvent );
+    void draw (sf::RenderTarget& , sf::RenderStates ) const;
+    void setTexture ();
+    void setSprite ();
   };
 
 };
