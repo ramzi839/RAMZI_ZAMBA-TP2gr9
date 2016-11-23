@@ -9,24 +9,32 @@ namespace ai {
 
     DumbAI::DumbAI(state::State* s) :Ai(s) {}
     void DumbAI::run(state::State* s) {
-        //std::default_random_engine generator;
-        //std::uniform_int_distribution<int> distribution(0,9);
         
-       // s->players[0]->setPosition(-distribution(generator),0);
-         //   s->players[1]->setPosition(distribution(generator),0);
         
-        /*if ((s->players[0]->getPosition().x - s->players[1]->getPosition().x)<7) {
-            s->players[0]->setPosition(3,0);
-            s->players[1]->setPosition(-3,0);
+        
+        
+        /*if(s->players[0]->getPosition().x>100){
+            s->players[1]->setPosition(2,0);
+         
+           
             }*/
-        if(s->players[0]->getPosition().x>100){
-            s->players[1]->setPosition(3,0);
-            
-            }
         
-         if (s->players[0]->getPosition().x -10 == s->players[1]->getPosition().x ) {
+         if (s->players[0]->getPosition().x -70 == s->players[1]->getPosition().x ) {
+                 
+            //s->players[0]->decreaseHealth(120);
+            s->players[0]->decreaseHealth(120);
             s->players[1]->notifyObservers(state::ATTACK_KICK);
+              
+            //s->players[0]->notifyObservers(state::HEALTH_CHANGED);
+            
+            
+            
          }
+         
+         
+         
+       
+        
     }
         
         
