@@ -16,6 +16,7 @@ void testSFML() {
 #include "render/Layer.h"
 #include "engine.h"
 #include "ai/DumbAI.h"
+#include "ai/HeuristicAI.h"
 using namespace std;
 using namespace state;
 using namespace render;
@@ -42,7 +43,8 @@ public :
         State state(&ryu,&ken);
         Engine engine(&state);
         
-        DumbAI dumb(&state);
+        //DumbAI dumb(&state);
+        HeuristicAI heuristic(&state);
         
         sf::Font font;
         font.loadFromFile("../res/arial.ttf");
@@ -68,7 +70,8 @@ public :
                 window.close();
         }
         
-        dumb.run(&state);
+        //dumb.run(&state);
+        heuristic.run(&state);
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             
