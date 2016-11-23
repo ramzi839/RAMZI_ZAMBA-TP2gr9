@@ -27,7 +27,7 @@ public :
     void run() {
         sf::Texture backgroundTexture;
         sf::Sprite background;
-        backgroundTexture.loadFromFile("res/Map0.png");
+        backgroundTexture.loadFromFile("../res/Map0.png");
         background.setTexture(backgroundTexture);
         
         Player ken("Ken");
@@ -43,6 +43,14 @@ public :
         Engine engine(&state);
         
         DumbAI dumb(&state);
+        sf::Color myColor;
+        
+        sf::Text text;
+        
+        sf::Font font;
+        font.loadFromFile("../res/arial.ttf");
+        
+        
         
         
     
@@ -57,7 +65,14 @@ public :
                 window.close();
         }
         
+        
         dumb.run(&state);
+        text.setFont(font);
+        text.setString("Perdu !");
+        text.setCharacterSize(20);
+        text.setColor(myColor.Red);
+        text.setStyle(sf::Text::Bold | sf::Text::Italic);
+        text.setPosition(350.f,200.f);
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             
@@ -86,6 +101,7 @@ public :
         window.draw(lken->rect_health);
         window.draw(lryu->sprite);
         window.draw(lryu->rect_health);
+        window.draw(text);
         window.display();
     }
         
@@ -105,7 +121,7 @@ int main(int argc,char* argv[])
     //state.players[1]->setPlayerStatus((PlayerStatus)2);
     
     
-    cout << "It works !" << endl;
+    
     
 
     return 0;
