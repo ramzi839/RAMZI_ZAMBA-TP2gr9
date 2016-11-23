@@ -1,49 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 #include <iostream>
 #include "State.h"
+#include "PlayerObserver.h"
+
 using namespace std;
-namespace state{
 
-    State::State(){
-        Player ken("Ken"),ryu("Ryu");
-        players.push_back(&ken);
-        players.push_back(&ryu);
-        cout<<"State Created..."<<endl;
+namespace state {
+   State::State(Player* p1,Player* p2) {
+  
+    this->players.push_back(p1);
+    this->players.push_back(p2);   
+    //players[0]->addObserver(new StateObserver(this->players[0]));
+    //players[1]->addObserver(new StateObserver(this->players[1]));
     
-    }
-    State::State(Player* p1, Player* p2) {
-        cout<<"Beginning..."<<endl;
-        players.push_back(p1);
-        players.push_back(p2);
-        cout<<"State Created with " + players[0]->getName()+ " and " + players[1]->getName()<<endl; 
-        
-        
-    
-    }
-    
-    
-/*void State::notifyObservers (int i){
+       cout<<"State Created with players " + players[0]->getName() + " and  " + players[1]->getName()<<endl;
+   } 
 
-    if (i==1){}
+/*  State::State( state::Player* newPlayer1,  state::Player* newPlayer2)  {
+       this->players.push_back(newPlayer1);
+       this->players.push_back(newPlayer2);
+       cout<<"State Created..."<<endl;
+    }*/ 
 
-}*/
-void State::update (engine::CommandTypeId order){
-
-    if ((order==engine::LEFT) || (order==engine::RIGHT) || (order==engine::KICK) || (order==engine::JUMP)||(order==engine::SPELL) || (order==engine::COMBO)) 
-        players[0]->notifyObservers((StateEvent)5,order);
-    if ((order==engine::LEFT_IA) || (order==engine::RIGHT_IA) || (order==engine::KICK_IA) || (order==engine::JUMP_IA)||(order==engine::SPELL_IA) || (order==engine::COMBO_IA)) 
-        players[1]->notifyObservers((StateEvent)5,order);
-    
-
-
-}
-    
-       
-    
-
+   void State::notifyObservers() {
+       cout<<"This is State Notification"<<endl;
+   }
+   void State::addObserver(PlayerObserver* newStateObserver) {
+       this->observers.push_back(newStateObserver);
+       cout<<"Observer added To State "<<endl;
+   }
 
 }

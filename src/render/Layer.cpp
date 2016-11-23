@@ -1,143 +1,100 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 #include <iostream>
 #include "Layer.h"
-#include "state/Player.h"
+
+#include "SFML/Graphics/RenderTarget.hpp"
+#include "state/State.h"
+
 using namespace std;
-using namespace state;
-namespace render {   
-Layer::Layer(sf::Time frameTime, bool pause, bool loop):
-    my_animation(NULL), my_frameTime(frameTime), my_currentFrame(0), isPaused(pause), isLooped(loop), my_texture(NULL)
-{
-    
- 
-}
 
-void Layer::stateChanged(state::StateEvent e, engine::CommandTypeId c ) {}
-void Layer::setFrame(std::size_t newFrame, bool resetTime)
-{
-    if (my_animation)
-    {
-        //calculate new vertex positions and texture coordiantes
-        sf::IntRect rect = my_animation->getFrame(newFrame);
+namespace render {
+
+    Layer::Layer(state::Player* observedPlayer ) : player(observedPlayer) {
+        if (player->getName().compare("Ryu")) {
+            this->texture.loadFromFile("../res/ken2.png");
+            this->sprite.setTexture(this->texture);
+            this->sprite.setTextureRect(sf::IntRect(10, 80, 50, 80));
+            this->sprite.setScale(1.3,1.3);
+            this->sprite.setPosition(observedPlayer->getPosition());
+            cout<<"Layer Linked to Player " + player->name << endl; 
+            sf::Vector2f size1(119.f,10.f);
+            rect_health.setSize(size1);
+            sf::Color health_color;
+            rect_health.setFillColor(health_color.Green);
+            rect_health.setPosition(102,25);}
+        if (player->getName().compare("Ken")) {
+            this->texture.loadFromFile("../res/ia_ken2.png");
+            this->sprite.setTexture(this->texture);
+            this->sprite.setTextureRect(sf::IntRect(430,80,50,80));
+            this->sprite.setPosition(observedPlayer->getPosition());
+            this->sprite.setScale(1.3,1.3);
+            cout<<"Layer Linked to Player " + player->name << endl; 
+            sf::Vector2f size1(120.f,10.f);
+            rect_health.setSize(size1);
+            sf::Color health_color;
+            rect_health.setFillColor(health_color.Green);
+            rect_health.setPosition(544,25.5);}
         
-        my_vertices[0].position = sf::Vector2f(0.f, 0.f);
-        my_vertices[1].position = sf::Vector2f(0.f, static_cast<float>(rect.height));
-        my_vertices[2].position = sf::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height));
-        my_vertices[3].position = sf::Vector2f(static_cast<float>(rect.width), 0.f);
-
-        float left = static_cast<float>(rect.left) + 0.0001f;
-        float right = left + static_cast<float>(rect.width);
-        float top = static_cast<float>(rect.top);
-        float bottom = top + static_cast<float>(rect.height);
-
-        my_vertices[0].texCoords = sf::Vector2f(left, top);
-        my_vertices[1].texCoords = sf::Vector2f(left, bottom);
-        my_vertices[2].texCoords = sf::Vector2f(right, bottom);
-        my_vertices[3].texCoords = sf::Vector2f(right, top);
     }
-
-    if (resetTime)
-        my_currentTime = sf::Time::Zero;
-}
-
-
     
-    
-void Layer::update(sf::Time deltaTime){
-    
-    if (!isPaused && my_animation)
-    {
-        
-        my_currentTime += deltaTime;
-
-        
-        if (my_currentTime >= my_frameTime)
-        {
+    void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
             
-            my_currentTime = sf::microseconds(my_currentTime.asMicroseconds() % my_frameTime.asMicroseconds());
-
-            
-            if (my_currentFrame + 1 < my_animation->getSize())
-                my_currentFrame++;
-            else
-            {
+    }
+    
+    void Layer::update(state::PlayerEvent e) {
+         
+        switch (e){
+            case state::POSITION_CHANGED :
                 
-                my_currentFrame = 0; 
-
-                if (!isLooped)
-                {
-                    isPaused = true;
+                 this->sprite.setPosition(this->player->getPosition());   
+       cout<<"Position Of Sprite Changed " << player->getPosition().x<< " " << player->getPosition().y<<endl;
+                 break;
+            case state::STATUS_CHANGED :
+               if ( player->side==state::LEFT){
+                if (player->getStatus()==state::SUPER)
+                this->texture.loadFromFile("../res/ryu_super.png");
+                else if ( player->getStatus()==state::DEAD){
+                     this->texture.loadFromFile("../res/ryu_dead.png");
+                     this->sprite.rotate(-90);
+                                                 }
+                    else this->texture.loadFromFile("../res/ryu_normal.png");
                 }
-
-            }
-          
-            setFrame(my_currentFrame, false);
+            case state::DEFEND : 
+                this->texture.loadFromFile("../res/ryu_defend.png");
+                    
+                break;
+            case state::HEALTH_CHANGED :
+                if (player->getHealth()>=0)  
+                this->rect_health.setSize(sf::Vector2f(player->health,10.f));
+                cout<<"Health changed"<<endl; 
+            case state::ATTACK_KICK : 
+                
+                if ( player->side==state::LEFT){
+                this->sprite.setPosition(player->getPosition().x,player->getPosition().y);
+                this->sprite.setScale(1.3,1.3);
+                this->sprite.setTextureRect(sf::IntRect(140, 480, 70, 80));
+                this->sprite.setTexture(texture);
+                cout<<"Attack from Player " + player->name<<endl;
+                }
+                
+                if ( player->side==state::RIGHT){
+                this->sprite.setPosition(player->getPosition().x,player->getPosition().y);
+                this->sprite.setScale(1.3,1.3);
+                this->sprite.setTextureRect(sf::IntRect(280, 480, 70, 80));
+                this->sprite.setTexture(texture);
+                cout<<"Attack from Player " + player->name<<endl;
+                }
+               
+                break;    
         }
     }
-}
-
-void Layer::play()
-{
-    isPaused = false;
-}
-
-void Layer::play(const Animation& animation)
-{
-    if (getAnimation() != &animation)
-        setAnimation(animation);
-    play();
-}
-
-void Layer::setColor(const sf::Color& color)
-{
-    // Update the vertices' color
-    my_vertices[0].color = color;
-    my_vertices[1].color = color;
-    my_vertices[2].color = color;
-    my_vertices[3].color = color;
-}
-
-void Layer::setAnimation(const Animation& animation)
-{
-    my_animation = &animation;
-    my_texture = my_animation->getSprite();
-    my_currentFrame = 0;
-    setFrame(my_currentFrame);
-}
-
-const Animation* Layer::getAnimation() const
-{
-    return my_animation;
-}
-
-
-void Layer::stop()
-{
-    isPaused = true;
-    my_currentFrame = 0;
-    setFrame(my_currentFrame);
-}
-
-void Layer::pause()
-{
-    isPaused = true;
-}
-
+    void Layer::setSprite() {
+            
     
-void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    if (my_animation && my_texture)
-    {
-        states.transform *= getTransform();
-        states.texture = my_texture;
-        target.draw(my_vertices, 4, sf::Quads, states);
     }
+    void Layer::setTexture( ) {
+        //if (this->player->getName().compare("Ryu")) this->texture.loadFromFile("../res/ryu_normal.png");
+       // else if (this->player->getName().compare("Ken")) this->texture.loadFromFile("../res/ken_normal.png");
+    }
+
 }
-   void Layer::linkToPlayer(state::Player* p)  {
-           this->player_observed=p;
-           cout<<"Player " +this->player_observed->getName() +" linked To Layer "<<endl;
-                    }
-}
+
