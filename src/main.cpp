@@ -42,7 +42,7 @@ public :
         State state(&ryu,&ken);
         Engine engine(&state);
         
-        DumbAI dumb(&state);
+        //DumbAI dumb(&state);
         
         
     
@@ -57,7 +57,7 @@ public :
                 window.close();
         }
         
-        dumb.run(&state);
+        //dumb.run(&state);
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             
@@ -77,7 +77,14 @@ public :
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))   { 
            engine.execute(engine::KEY_KICK_P1);
             }
-     
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::H))   { 
+            ken.decreaseHealth(5);
+            //lken->update(state::HEALTH_CHANGED);
+            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))   { 
+            ryu.decreaseHealth(10);
+            lryu->update(state::HEALTH_CHANGED);
+            }
         
        
         window.clear();
