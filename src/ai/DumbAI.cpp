@@ -21,11 +21,11 @@ namespace ai {
         
          if (s->players[0]->getPosition().x -70 == s->players[1]->getPosition().x ) {
                  
-            //s->players[0]->decreaseHealth(120);
+            
             s->players[0]->decreaseHealth(120);
             s->players[1]->notifyObservers(state::ATTACK_KICK);
               
-            //s->players[0]->notifyObservers(state::HEALTH_CHANGED);
+            
             
             
             
