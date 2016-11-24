@@ -39,9 +39,18 @@ sf::Vector2f Player::getPosition() const {
         return this->position; 
                                      }
 void Player::setPosition(float x, float y)  {
-    if (this->position.x > 0 || this->position.x < 470 )
+    if (this->position.x >= 0 )
     this->position.x += x;
+    else this->position.x += 10;
+    
+    if (this->position.x <= 710)
+    this->position.x += x;
+    else this->position.x -= 10;
+    
+    if (x == 690)position.x = x;
+    
     this->position.y += y;
+   
     
     cout<<this->name + " Changed Position To  " << this->getPosition().x<< " " <<this->getPosition().x <<endl;
     notifyObservers((state::PlayerEvent)1);
@@ -62,6 +71,11 @@ float Player::getHealth() const {
 void Player::decreaseHealth(float i) {
     notifyObservers(state::HEALTH_CHANGED);
     health -=i;}
+
+void Player::setHealth(int health) {
+    
+    this->health = health;
+}
 
 state::SIDE Player::getSide() const { return this->side;}
 

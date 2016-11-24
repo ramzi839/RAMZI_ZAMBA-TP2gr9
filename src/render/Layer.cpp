@@ -84,7 +84,17 @@ namespace render {
                 cout<<"Attack from Player " + player->name<<endl;
                 }
                
-                break;    
+                break; 
+      case state::NOTHING_CHANGED :
+                if ( player->side==state::LEFT)
+                 this->sprite.setTextureRect(sf::IntRect(10, 80, 50, 80));
+                else {
+                this->sprite.setTextureRect(sf::IntRect(430,80,50,80));
+                
+                }
+               
+                 break;
+                
         }
     }
     void Layer::setSprite() {

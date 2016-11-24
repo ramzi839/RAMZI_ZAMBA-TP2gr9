@@ -8,22 +8,18 @@
 namespace ai {
 
     DumbAI::DumbAI(state::State* s) :Ai(s) {}
-    void DumbAI::run(state::State* s) {
-        
-        
-        
+    void DumbAI::run(state::State* s) {   
         
         /*if(s->players[0]->getPosition().x>100){
-            s->players[1]->setPosition(2,0);
-         
-           
+            s->players[1]->setPosition(2,0);       
             }*/
-        
-         if (s->players[0]->getPosition().x -70 == s->players[1]->getPosition().x ) {
-                 
+        s->players[0]->setPosition(-1,0); 
+         if (s->players[0]->getPosition().x -20 < s->players[1]->getPosition().x ) {
+               
+            sf::sleep(sf::seconds(2.f));
             
-            s->players[0]->decreaseHealth(120);
-            s->players[1]->notifyObservers(state::ATTACK_KICK);
+            s->players[1]->decreaseHealth(120);
+            s->players[0]->notifyObservers(state::ATTACK_KICK);
               
             
             

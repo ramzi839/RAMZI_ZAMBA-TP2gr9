@@ -10,9 +10,17 @@ namespace engine {
     void Move::apply(state::State* s) {
         
         if (id==1){
-            if(direction == state::EAST)
-            s->players[1]->setPosition(5,0);
-            else  s->players[1]->setPosition(-5,0);
+            if(direction == state::EAST){
+                
+                s->players[1]->setPosition(5,0);
+                //s->players[1]->decreaseHealth(5);
+                
+            }
+            else  {
+                
+                s->players[1]->setPosition(-5,0);
+                
+            }
         }
         if (id==2) {
             if(direction == state::WEST)
