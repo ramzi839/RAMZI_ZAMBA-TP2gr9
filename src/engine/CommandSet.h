@@ -12,7 +12,9 @@ namespace engine {
     KEY_RIGHT     = 4,
     KEY_DEFEND     = 5,
     KEY_KICK_P1     = 6,
-    KEY_KICK_P2     = 7
+    KEY_KICK_P2     = 7,
+    KEY_PUNCH_P1     = 8,
+    KEY_PUNCH_P2     = 9
   };
 
 };

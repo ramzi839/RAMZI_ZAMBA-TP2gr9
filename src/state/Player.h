@@ -12,8 +12,8 @@
 #include "SFML/Window.hpp"
 
 namespace state {
-  class PlayerObserver;
   class State;
+  class PlayerObserver;
   class Observable;
 }
 
@@ -36,6 +36,7 @@ namespace state {
     float health;
     state::SIDE side;
     state::Direction direction;
+    state::State* state;
     // Operations
   public:
     Player (std::string );
@@ -45,13 +46,14 @@ namespace state {
     void setPosition (float , float );
     sf::Vector2f getPosition () const;
     void addObserver (PlayerObserver* );
-    void link (State* );
     std::string getName () const;
     void decreaseHealth (float );
     float getHealth () const;
     state::SIDE getSide () const;
     void setDirection (state::Direction );
     state::Direction getDirection () const;
+    void setHealth (int health);
+    void linkToState (state::State* );
   };
 
 };

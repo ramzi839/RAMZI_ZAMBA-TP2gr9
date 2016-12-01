@@ -9,8 +9,11 @@ namespace state {
     POSITION_CHANGED     = 1,
     STATUS_CHANGED     = 2,
     ATTACK_KICK     = 3,
-    DEFEND     = 4,
-    HEALTH_CHANGED     = 5
+    ATTACK_PUNCH     = 4,
+    DEFEND     = 5,
+    HEALTH_CHANGED     = 6,
+    NOTHING_CHANGED     = 7,
+    HURTED     = 8
   };
 
 };

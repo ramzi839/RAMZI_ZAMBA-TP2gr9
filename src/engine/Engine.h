@@ -11,8 +11,8 @@ namespace engine {
   class Action;
 }
 
-#include "CommandSet.h"
 #include "Action.h"
+#include "CommandSet.h"
 
 namespace engine {
 
@@ -23,10 +23,12 @@ namespace engine {
   public:
     state::State* currentState;
     std::vector<Action*> actions;
+    std::vector<Action*> commandSet;
     // Operations
   public:
     Engine (state::State* );
-    void execute (engine::CommandSet );
+    void execute ();
+    void addCommand (engine::Action* );
   };
 
 };

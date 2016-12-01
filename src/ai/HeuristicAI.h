@@ -10,16 +10,22 @@ namespace ai {
   class Ai;
 }
 
+#include "engine/CommandSet.h"
 #include "Ai.h"
 
 namespace ai {
 
   /// class HeuristicAI - 
   class HeuristicAI : public ai::Ai {
+    // Attributes
+  public:
+    state::State * state;
     // Operations
   public:
-    void run ();
     HeuristicAI (state::State* );
+    int findBestMove (engine::CommandSet command, int * );
+    void run (state::State* );
+    void run ();
   };
 
 };

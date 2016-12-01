@@ -11,7 +11,8 @@ namespace state {
     this->players.push_back(p2);   
     //players[0]->addObserver(new StateObserver(this->players[0]));
     //players[1]->addObserver(new StateObserver(this->players[1]));
-    
+    this->players[0]->linkToState(this);
+    this->players[1]->linkToState(this);
        cout<<"State Created with players " + players[0]->getName() + " and  " + players[1]->getName()<<endl;
    } 
 
@@ -29,4 +30,14 @@ namespace state {
        cout<<"Observer added To State "<<endl;
    }
 
+   void State::changePlayerStatus(state::Player* p, state::PlayerStatus s){
+       p->setStatus(s);
+    }
+   void State::enableFight() {
+        
+                    }
+    
+   
+     
+   
 }

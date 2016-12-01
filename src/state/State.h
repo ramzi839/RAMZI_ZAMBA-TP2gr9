@@ -10,6 +10,7 @@ namespace state {
   class Observable;
 }
 
+#include "PlayerStatus.h"
 #include "Observable.h"
 #include "Player.h"
 
@@ -27,6 +28,8 @@ namespace state {
     State (Player*  , Player* );
     void notifyObservers ();
     void addObserver (PlayerObserver* );
+    void  changePlayerStatus (state::Player* , state::PlayerStatus );
+    void enableFight ();
   };
 
 };

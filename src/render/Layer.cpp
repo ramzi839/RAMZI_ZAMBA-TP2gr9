@@ -73,7 +73,7 @@ namespace render {
                 this->sprite.setScale(1.3,1.3);
                 this->sprite.setTextureRect(sf::IntRect(140, 480, 70, 80));
                 this->sprite.setTexture(texture);
-                cout<<"Attack from Player " + player->name<<endl;
+                cout<<"Attack Kick from Player " + player->name<<endl;
                 }
                 
                 if ( player->side==state::RIGHT){
@@ -85,6 +85,34 @@ namespace render {
                 }
                
                 break; 
+                 case state::ATTACK_PUNCH : 
+                
+                if ( player->side==state::LEFT){
+                this->sprite.setPosition(player->getPosition().x,player->getPosition().y);
+                this->sprite.setScale(1.3,1.3);
+                this->sprite.setTextureRect(sf::IntRect(83, 162, 70, 80));
+                this->sprite.setTexture(texture);
+                cout<<"Attack Punch from Player " + player->name<<endl;
+                }
+                
+                if ( player->side==state::RIGHT){
+                this->sprite.setPosition(player->getPosition().x,player->getPosition().y);
+                this->sprite.setScale(1.3,1.3);
+                this->sprite.setTextureRect(sf::IntRect(350, 160, 70, 80));
+                this->sprite.setTexture(texture);
+                cout<<"Attack from Player " + player->name<<endl;
+                }
+               
+                break;
+            case state::HURTED :
+                
+                if ( player->side==state::RIGHT) { cout<<"Player Hurted"<<endl;
+                 this->sprite.setTextureRect(sf::IntRect(350, 160, 50, 80));}
+                else {
+                this->sprite.setTextureRect(sf::IntRect(430,80,50,80));
+                
+                }
+               
       case state::NOTHING_CHANGED :
                 if ( player->side==state::LEFT)
                  this->sprite.setTextureRect(sf::IntRect(10, 80, 50, 80));

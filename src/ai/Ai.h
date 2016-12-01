@@ -16,8 +16,8 @@ namespace ai {
     state::State* state;
     // Operations
   public:
-    virtual void run () = 0;
     Ai (state::State* );
+    virtual void run () = 0;
   };
 
 };

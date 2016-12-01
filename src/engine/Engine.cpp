@@ -28,9 +28,9 @@ namespace engine {
         
     }
     
-    void Engine::execute(engine::CommandSet command) {
+    void Engine::execute() {
     
-        switch (command) {
+        /*switch (command) {
             case engine::KEY_W : 
             actions[5]->apply(currentState);
             break;
@@ -49,16 +49,29 @@ namespace engine {
             case engine::KEY_KICK_P2:
             actions[1]->apply(currentState);     
             break;
+            case engine::KEY_PUNCH_P1:
+            actions[2]->apply(currentState);    
+            break;
+            case engine::KEY_PUNCH_P2:
+            actions[3]->apply(currentState);     
+            break;
             default :
             
-            break;
-            
-            
+            break;        
+        }*/
         
+        for (auto a : actions ) 
+           a->apply(currentState);    
         
+        actions.clear();
         
-        }
     }
 
-
+    void Engine::addCommand(engine::Action* action) {
+        
+        actions.push_back(action);
+    
+    }
+    
+    
 }

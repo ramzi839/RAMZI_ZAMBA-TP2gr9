@@ -21,8 +21,8 @@ namespace ai {
     state::State* state;
     // Operations
   public:
-    void run (state::State* );
     DumbAI (state::State* );
+    void run (state::State* );
     void run ();
   };
 

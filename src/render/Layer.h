@@ -10,6 +10,7 @@
 #include "SFML/Graphics/Transformable.hpp"
 #include "SFML/Window.hpp"
 #include <string>
+#include <map>
 
 namespace state {
   class Player;
@@ -30,6 +31,7 @@ namespace render {
     state::Player* player;
     std::string name;
     sf::RectangleShape rect_health;
+    std::map<std::string ,sf::Sprite >  currentSprite;
     // Operations
   public:
     Layer ();
@@ -38,6 +40,9 @@ namespace render {
     void draw (sf::RenderTarget& , sf::RenderStates ) const;
     void setTexture ();
     void setSprite ();
+    void initSpriteVector ();
+    void setSpriteBank ();
+    void setRectHealth ();
   };
 
 };

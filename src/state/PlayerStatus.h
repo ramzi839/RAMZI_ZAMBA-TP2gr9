@@ -8,7 +8,9 @@ namespace state {
   enum PlayerStatus {
     NORMAL     = 0,
     SUPER     = 1,
-    DEAD     = 2
+    DEAD     = 2,
+    REACHABLE,
+    NON_RECHABLE     = 4
   };
 
 };

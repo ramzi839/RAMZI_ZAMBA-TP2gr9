@@ -59,9 +59,7 @@ void Player::addObserver(PlayerObserver* newPlayerObserver) {
         this->observers.push_back(newPlayerObserver);
         cout<<"Observer Added to Player " + this->name <<endl;
     }
-void Player::link(State* state) {
-       // this->state(state);
-    }
+
 std::string Player::getName() const {return this->name;}
 
 float Player::getHealth() const { 
@@ -82,6 +80,10 @@ state::SIDE Player::getSide() const { return this->side;}
 void Player::setDirection(state::Direction d) { this->direction = d;}
 state::Direction Player::getDirection() const { return this->direction;}
 
+void Player::linkToState(state::State* state) {
+        this->state=state;
+        cout<<"Player "<< this->name<<" Linked To State... "<<endl;
+                                       }
+
 
 }
- 
