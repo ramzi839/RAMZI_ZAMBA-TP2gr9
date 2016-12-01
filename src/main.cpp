@@ -1,5 +1,8 @@
 #include <iostream>
-
+#include <mutex>
+#include <thread>
+#include <exception> 
+#include <SFML/System.hpp>
 
 #include <SFML/Graphics.hpp>
 
@@ -23,9 +26,22 @@ using namespace render;
 using namespace engine;
 using namespace ai;
 
+std::mutex m;
+void update(Engine &engine) {
+    while(1) {
+        lock_guard<mutex> lock(m);
+        engine.execute();
+    }
+
+
+}
+
+
 class Game {
 public :
     void run() {
+        
+        
         sf::Texture backgroundTexture,imgTexture;
         sf::Sprite background,picture1,picture2;
         backgroundTexture.loadFromFile("../res/Map0.png");
@@ -52,27 +68,12 @@ public :
 
         State state(&ryu,&ken);
         Engine engine(&state);
+        thread t1(update,ref(engine));
         
-        //DumbAI dumb(&state);
-        HeuristicAI heuristic(&state);
         
         sf::Font font;
         font.loadFromFile("../res/arial.ttf");
         sf::Color myColor;
-        
-        sf::Text text, text2;
-        text.setCharacterSize(70);
-        text.setString("Game Over !");
-        text.setPosition(200.f,150.f);
-        text.setStyle(sf::Text::Bold | sf::Text::Italic);
-        text.setColor(myColor.Red);
-        text.setFont(font);
-        text2.setCharacterSize(70);
-        text2.setString("You are the winner !");
-        text2.setPosition(100.f,150.f);
-        text2.setStyle(sf::Text::Bold | sf::Text::Italic);
-        text2.setColor(myColor.Green);
-        text2.setFont(font);
         
         bool noKeyWasPressed = true;
     
@@ -80,38 +81,67 @@ public :
     window.setFramerateLimit(60);
     while (window.isOpen())
     {
+        
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+            try {
+               t1.detach();
+                }
+            catch (std::exception& e) {
+        std::cerr << "ERROR: could not allocate storage\n";
+        std::terminate();}
+            }
         }
         
-        //dumb.run(&state);
-        heuristic.run(&state);
+       
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            
-            engine.execute(engine::KEY_W);
+            Action * moveLeft = new Move(1,state::WEST);
+            engine.addCommand(moveLeft);
+           // engine.execute(engine::KEY_W);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
             
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))   {     
-            engine.execute(engine::KEY_C);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))   { 
+            Action * cmd = new Move(1,state::EAST);
+            engine.addCommand(cmd);
+            //engine.execute(engine::KEY_C);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))   { 
-         
-            engine.execute(engine::KEY_LEFT);
+            Action * cmd = new Move(2,state::WEST);
+            engine.addCommand(cmd);
+            //engine.execute(engine::KEY_LEFT);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))   { 
-           engine.execute(engine::KEY_RIGHT);
+            Action * cmd = new Move(2,state::EAST);
+            engine.addCommand(cmd);
+           //engine.execute(engine::KEY_RIGHT);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))   { 
-           engine.execute(engine::KEY_KICK_P1);
+            Action * cmd = new Kick(1);
+            engine.addCommand(cmd);
+           //engine.execute(engine::KEY_KICK_P1);
            noKeyWasPressed = false;
+            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))   { 
+            Action * cmd = new Punch(1);
+            engine.addCommand(cmd);
+          // engine.execute(engine::KEY_PUNCH_P1);
+           noKeyWasPressed = false;
+            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))   { 
+            ken.decreaseHealth(2);
+            cout<<ken.getHealth()<<endl;
+            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))   { 
+            ken.notifyObservers(state::ATTACK_KICK);
+            cout<<"Ken Hurted"<<endl;
             }
         
         if (noKeyWasPressed) {
@@ -119,7 +149,7 @@ public :
       }
      
         noKeyWasPressed = true;
-       
+        //engine.execute();
         window.clear();
         window.draw(background);
         window.draw(lken->sprite);
@@ -128,24 +158,9 @@ public :
         window.draw(lryu->rect_health);
         window.draw(picture1);
         window.draw(picture2);
-        
-        
-        
-        
-        
-        
-        if (ken.getHealth()<0){
-        window.draw(text);
-        ryu.setHealth(5);    
-        }
-        else {
-        if (ryu.getHealth()<0){
-            ken.setHealth(5);
-        window.draw(text2);   
-        }}
         window.display();
     }
-        
+        t1.join();
     }
 };
 
@@ -153,11 +168,13 @@ public :
 int main(int argc,char* argv[]) 
 {
     cout<<"Beginning..."<<endl;
-    
+   
     Game game;
+   
     game.run();
-    
- 
+     //sf::Thread th(&Game::run,&game);
+     
+   //  th.launch();
     
     
     
