@@ -3,7 +3,6 @@
 #define __ENGINE__H
 
 #include "engine/Action.h"
-#include "engine/CommandSet.h"
 #include "engine/Engine.h"
 #include "engine/Move.h"
 #include "engine/Punch.h"

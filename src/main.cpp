@@ -91,7 +91,7 @@ public :
                t1.detach();
                 }
             catch (std::exception& e) {
-        std::cerr << "ERROR: could not allocate storage\n";
+        std::cerr << "ERROR: Game Terminated with errors\n";
         std::terminate();}
             }
         }

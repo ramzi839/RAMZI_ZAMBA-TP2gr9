@@ -10,7 +10,6 @@ namespace ai {
   class Ai;
 }
 
-#include "engine/CommandSet.h"
 #include "Ai.h"
 
 namespace ai {
@@ -23,7 +22,7 @@ namespace ai {
     // Operations
   public:
     HeuristicAI (state::State* );
-    int findBestMove (engine::CommandSet command, int * );
+    int findBestMove ();
     void run (state::State* );
     void run ();
   };

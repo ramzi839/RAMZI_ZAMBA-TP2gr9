@@ -3,7 +3,6 @@
 #include "HeuristicAI.h"
 #include "state/Player.h"
 #include "engine/Engine.h"
-#include "engine/CommandSet.h"
 #include "state/State.h"
 namespace ai {
 
