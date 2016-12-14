@@ -656,6 +656,7 @@ struct stdlib_includes {
    int time2;
    int render_target;
    int vector2;
+   int json;
    	
 };
 
@@ -676,6 +677,10 @@ void print_include_stdlib(struct stdlib_includes* si,char* name) {
        if (!si->stdlib && strstr(name,"size_t")) {
            print ("#include <stdlib.h>\n");
            si->stdlib = 1;
+       }
+	   if (!si->json && strstr(name,"Json::")) {
+           print ("#include <json/json.h>\n");
+           si->json = 1;
        }
        if (!si->graphics && strstr(name,"sf::")) {
            print ("#include \"SFML/Graphics.hpp\"\n");

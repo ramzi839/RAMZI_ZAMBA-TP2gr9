@@ -11,6 +11,7 @@ clean:
 
 distclean: clean
 	@rm -rf ${DIA2CODE_DIR}/bin ${DIA2CODE_DIR}/build
+	@rm -rf extern/jsoncpp-0.10.5 extern/libmicrohttpd extern/libmicrohttpd-0.9.46
 
 dia2code: ${DIA2CODE_DIR}/bin/dia2code
 
@@ -18,13 +19,21 @@ ${DIA2CODE_DIR}/bin/dia2code:
 	cd ${DIA2CODE_DIR} && ./build.sh
 
 configure:
+	./extern/configure
 	@mkdir -p build 
 	@cd build && cmake ..
 
 build:
 	@make -s -j4 -C build
 
-run: 	build
+server:
+	@make -s -j4 -C build server
+
+client:
+	@make -s -j4 -C build run
+
+
+run: 	
 	./bin/run
 
 test:

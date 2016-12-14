@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 IF(CMAKE_COMPILER_IS_GNUCC)
 	SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wall -std=c11   -pthread -g")
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11 -pthread -g")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11  -pthread -g")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 
@@ -23,11 +23,12 @@ set(DIA2CODE "${PROJECT_SOURCE_DIR}/dia2code/bin/dia2code")
 exec_program(${DIA2CODE} ARGS -d ../src -t cpp ../src/state.dia)
 
 # Sources
-file(GLOB_RECURSE main_sources src/*.cpp)
-
+file(GLOB_RECURSE client_sources src/render/*.cpp)
+file(GLOB_RECURSE main_sources src/state/*.cpp src/engine/*.cpp)
+file(GLOB_RECURSE server_sources src/server/*.cpp)
 
 # Executables
-add_executable(run ${main_sources})
+add_executable(run src/main.cpp ${client_sources}  ${main_sources})
 
 # SFML
 if(WIN32)
@@ -41,4 +42,16 @@ if(SFML_FOUND)
   include_directories(${SFML_INCLUDE_DIR})
   target_link_libraries(run ${SFML_LIBRARIES})
 endif()
+
+# jsoncpp
+include_directories ("${PROJECT_SOURCE_DIR}/extern/jsoncpp-0.10.5/dist")
+file(GLOB jsoncpp_sources "${PROJECT_SOURCE_DIR}/extern/jsoncpp-0.10.5/dist/jsoncpp.cpp")
+
+
+# Target
+add_executable(server ${jsoncpp_sources} ${server_sources} ${main_sources})
+
+# libmicrohttpd
+include_directories ("${PROJECT_SOURCE_DIR}/extern/libmicrohttpd/include")
+target_link_libraries(server "${PROJECT_SOURCE_DIR}/extern/libmicrohttpd/lib/libmicrohttpd.so")
 
