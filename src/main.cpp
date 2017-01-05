@@ -44,8 +44,8 @@ public :
         
         sf::Texture backgroundTexture,imgTexture;
         sf::Sprite background,picture1,picture2;
-        backgroundTexture.loadFromFile("../res/Map0.png");
-        imgTexture.loadFromFile("../res/ken_profil.jpg");
+        backgroundTexture.loadFromFile("res/Map0.png");
+        imgTexture.loadFromFile("res/ken_profil.jpg");
         picture1.setTexture(imgTexture);
         picture2.setTexture(imgTexture);
         background.setTexture(backgroundTexture);
@@ -99,49 +99,49 @@ public :
        
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            Action * moveLeft = new Move(1,state::WEST);
+            Action * moveLeft = new Move(0,state::WEST);
             engine.addCommand(moveLeft);
-           // engine.execute(engine::KEY_W);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
             
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))   { 
-            Action * cmd = new Move(1,state::EAST);
+            Action * cmd = new Move(0,state::EAST);
             engine.addCommand(cmd);
-            //engine.execute(engine::KEY_C);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))   { 
-            Action * cmd = new Move(2,state::WEST);
+            Action * cmd = new Move(1,state::WEST);
             engine.addCommand(cmd);
-            //engine.execute(engine::KEY_LEFT);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))   { 
-            Action * cmd = new Move(2,state::EAST);
+            Action * cmd = new Move(1,state::EAST);
             engine.addCommand(cmd);
-           //engine.execute(engine::KEY_RIGHT);
             cout<<ryu.getPosition().x << " "<< ryu.getPosition().y<<endl;
         noKeyWasPressed = false;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))   { 
-            Action * cmd = new Kick(1);
+            Action * cmd = new Kick(0);
             engine.addCommand(cmd);
-           //engine.execute(engine::KEY_KICK_P1);
            noKeyWasPressed = false;
             }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))   { 
-            Action * cmd = new Punch(1);
+            Action * cmd = new Punch(0);
             engine.addCommand(cmd);
-          // engine.execute(engine::KEY_PUNCH_P1);
            noKeyWasPressed = false;
             }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))   { 
-            ken.decreaseHealth(2);
+            ken.decreaseHealth(0);
             cout<<ken.getHealth()<<endl;
             }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))   { 
-            ken.notifyObservers(state::ATTACK_KICK);
-            cout<<"Ken Hurted"<<endl;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))   { 
+            Action * cmd = new Hurt(1);
+            engine.addCommand(cmd);
+            noKeyWasPressed = false;
+            }
+         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))   { 
+            Action * cmd = new Hurt(2);
+            engine.addCommand(cmd);
+            noKeyWasPressed = false;
             }
         
         if (noKeyWasPressed) {

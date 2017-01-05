@@ -7,4 +7,5 @@
 #include "engine/Move.h"
 #include "engine/Punch.h"
 #include "engine/Kick.h"
+#include "engine/Hurt.h"
 #endif

@@ -8,10 +8,9 @@ namespace engine {
 
     Kick::Kick(int id) : id(id){}
     void Kick::apply(state::State* s) {
-        if ( id ==1) {
-            s->players[1]->notifyObservers(state::ATTACK_KICK);
-        }
-        else  s->players[0]->notifyObservers(state::ATTACK_KICK);
+        
+            s->players[id]->notifyObservers(state::ATTACK_KICK);
+        
     }
 
 

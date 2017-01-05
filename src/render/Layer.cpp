@@ -9,30 +9,20 @@ using namespace std;
 namespace render {
 
     Layer::Layer(state::Player* observedPlayer ) : player(observedPlayer) {
-        if (player->getName().compare("Ryu")) {
-            this->texture.loadFromFile("../res/ken2.png");
-            this->sprite.setTexture(this->texture);
-            this->sprite.setTextureRect(sf::IntRect(10, 80, 50, 80));
-            this->sprite.setScale(1.3,1.3);
-            this->sprite.setPosition(observedPlayer->getPosition());
+        if (player->getName().compare("Ryu")==0) {
+            this->setTexture();
+            this->initSprite();
+            this->setRectHealth();
             cout<<"Layer Linked to Player " + player->name << endl; 
-            sf::Vector2f size1(119.f,10.f);
-            rect_health.setSize(size1);
-            sf::Color health_color;
-            rect_health.setFillColor(health_color.Green);
-            rect_health.setPosition(102,25);}
-        if (player->getName().compare("Ken")) {
-            this->texture.loadFromFile("../res/ia_ken2.png");
-            this->sprite.setTexture(this->texture);
-            this->sprite.setTextureRect(sf::IntRect(430,80,50,80));
-            this->sprite.setPosition(observedPlayer->getPosition());
-            this->sprite.setScale(1.3,1.3);
+         
+        }
+        if (player->getName().compare("Ken")==0) {
+            this->setTexture();
+            this->initSprite();
+            this->setRectHealth();
             cout<<"Layer Linked to Player " + player->name << endl; 
-            sf::Vector2f size1(120.f,10.f);
-            rect_health.setSize(size1);
-            sf::Color health_color;
-            rect_health.setFillColor(health_color.Green);
-            rect_health.setPosition(544,25.5);}
+       
+        }
         
     }
     
@@ -104,15 +94,24 @@ namespace render {
                 }
                
                 break;
-            case state::HURTED :
+            case state::HURTED : 
                 
-                if ( player->side==state::RIGHT) { cout<<"Player Hurted"<<endl;
-                 this->sprite.setTextureRect(sf::IntRect(350, 160, 50, 80));}
-                else {
-                this->sprite.setTextureRect(sf::IntRect(430,80,50,80));
-                
+                if ( player->side==state::LEFT){
+                this->sprite.setPosition(player->getPosition().x,player->getPosition().y);
+                this->sprite.setScale(1.3,1.3);
+                this->sprite.setTextureRect(sf::IntRect(0, 562, 70, 80));
+                this->sprite.setTexture(texture);
+                cout<<"Hurt Player " + player->name<<" Side " << player->getSide()<<endl;
                 }
-               
+                
+                if ( player->side==state::RIGHT){
+                this->sprite.setPosition(player->getPosition().x,player->getPosition().y);
+                this->sprite.setScale(1.3,1.3);
+                this->sprite.setTextureRect(sf::IntRect(286, 562, 70, 80));
+                this->sprite.setTexture(texture);
+                cout<<"Hurt Player " + player->name <<" Side " << player->getSide()<<endl;
+                }
+                break;
       case state::NOTHING_CHANGED :
                 if ( player->side==state::LEFT)
                  this->sprite.setTextureRect(sf::IntRect(10, 80, 50, 80));
@@ -130,9 +129,47 @@ namespace render {
     
     }
     void Layer::setTexture( ) {
-        //if (this->player->getName().compare("Ryu")) this->texture.loadFromFile("../res/ryu_normal.png");
-       // else if (this->player->getName().compare("Ken")) this->texture.loadFromFile("../res/ken_normal.png");
+        if (player->getName().compare("Ryu")==0) {
+            this->texture.loadFromFile("res/ken2.png");
+        }
+        if (player->getName().compare("Ken")==0) {
+            this->texture.loadFromFile("res/ia_ken2.png");
+        }
+            
     }
-
+    void Layer::setSpriteSet(){}
+    
+    void Layer::initSprite() {
+        this->sprite.setTexture(this->texture);
+        if (player->getName().compare("Ryu")) {
+            this->sprite.setTextureRect(sf::IntRect(11, 82, 50, 80));
+            this->sprite.setScale(1.3,1.3);
+            this->sprite.setPosition(player->getPosition());   
+        }
+        if (player->getName().compare("Ken")) {
+            this->sprite.setTextureRect(sf::IntRect(430,80,50,80));
+            this->sprite.setPosition(player->getPosition());
+            this->sprite.setScale(1.3,1.3);
+        
+        }
+    } 
+    void Layer::setRectHealth(){
+        if (player->getSide()==state::LEFT) {
+            sf::Vector2f size1(119.f,10.f);
+            rect_health.setSize(size1);
+            sf::Color health_color;
+            rect_health.setFillColor(health_color.Green);
+            rect_health.setPosition(102,25);
+        }
+        if (player->getSide()==state::RIGHT) {
+            sf::Vector2f size1(120.f,10.f);
+            rect_health.setSize(size1);
+            sf::Color health_color;
+            rect_health.setFillColor(health_color.Green);
+            rect_health.setPosition(544,25.5);
+        }  
+    }
+    
+    
 }
 

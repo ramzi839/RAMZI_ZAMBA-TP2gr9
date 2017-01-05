@@ -31,7 +31,8 @@ namespace render {
     state::Player* player;
     std::string name;
     sf::RectangleShape rect_health;
-    std::map<std::string ,sf::Sprite >  currentSprite;
+    sf::Sprite currentSprite;
+    std::map< std::string, sf::Sprite> spriteSet;
     // Operations
   public:
     Layer ();
@@ -43,6 +44,8 @@ namespace render {
     void initSpriteVector ();
     void setSpriteBank ();
     void setRectHealth ();
+    void setSpriteSet ();
+    void initSprite ();
   };
 
 };

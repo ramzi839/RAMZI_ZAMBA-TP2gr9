@@ -8,23 +8,7 @@ using namespace std;
 namespace engine {
 
     Engine::Engine(state::State * s) : currentState(s){
-        Kick * kick = new Kick(1);
-        actions.push_back(kick);
-        Kick* kick2 = new Kick(2);
-        actions.push_back(kick2);
-        Punch* punch=new Punch(1);
-        actions.push_back(punch);
-        Punch* punch2 = new Punch(2);
-        actions.push_back(punch2);
-        
-        Move * move_east = new Move(1,state::EAST);
-        actions.push_back(move_east);
-        Move * move_west = new Move(1,state::WEST);
-        actions.push_back(move_west);
-        Move* move2_east = new Move(2,state::EAST);
-        actions.push_back(move2_east);
-        Move* move2_west = new Move(2,state::WEST);
-        actions.push_back(move2_west);
+   
         
     }
     

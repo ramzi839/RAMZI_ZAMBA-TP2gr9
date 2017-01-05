@@ -10,11 +10,11 @@ namespace state {
 Player::Player(std::string newName) : health(120) {
     this->name=newName;
     
-    if(newName.compare("Ken")) {
+    if(newName.compare("Ken")==0) {
         this->setPosition(690,350);
         this->side=state::RIGHT;
     }
-    else if(newName.compare("Ryu")) {
+    else if(newName.compare("Ryu")==0) {
          this->setPosition(10,350);
          this->side=state::LEFT;}
 

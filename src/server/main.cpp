@@ -1,5 +1,6 @@
 #include "ServicesManager.hpp"
 #include "VersionService.hpp"
+#include "CommandService.hpp"
 //#include "UserService.hpp"
 
 #include <iostream>
@@ -7,6 +8,7 @@
 #include <microhttpd.h>
 #include <string.h>
 #include <memory>
+
 using namespace std;
 using namespace server;
 

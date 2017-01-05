@@ -9,23 +9,23 @@ namespace engine {
     Move::Move(int id,state::Direction d) : id(id) , direction(d){}
     void Move::apply(state::State* s) {
         
-        if (id==1){
+        if (id==0){
             if(direction == state::EAST){
                 
-                s->players[1]->setPosition(5,0);
+                s->players[id]->setPosition(5,0);
                 //s->players[1]->decreaseHealth(5);
                 
             }
             else  {
                 
-                s->players[1]->setPosition(-5,0);
+                s->players[id]->setPosition(-5,0);
                 
             }
         }
-        if (id==2) {
+        if (id==1) {
             if(direction == state::WEST)
-            s->players[0]->setPosition(-5,0);
-            else  s->players[0]->setPosition(5,0);
+            s->players[id]->setPosition(-5,0);
+            else  s->players[id]->setPosition(5,0);
             
                     }
         
