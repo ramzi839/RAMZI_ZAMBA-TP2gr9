@@ -122,7 +122,7 @@ main_handler (void *cls,
     int ret = MHD_queue_response(connection, status, mhd_response);
     MHD_destroy_response(mhd_response);
     return ret;
-}
+} 
 
 
 int main(int argc, char *const *argv)
